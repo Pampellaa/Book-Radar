@@ -1,6 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
 
+from djangoProject.BookRadar.models import Review
+
+
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=64, label='', widget=forms.TextInput(attrs={'placeholder': 'Username'}))
     password = forms.CharField(max_length=64, label='', widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
@@ -32,3 +35,9 @@ class RegisterForm(forms.ModelForm):
             raise forms.ValidationError('Hasła nie pasują do siebie.')
 
         return password2
+
+
+class OpinionAddForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['book', 'comment']

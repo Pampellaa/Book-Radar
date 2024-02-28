@@ -19,154 +19,175 @@
             <p class="navbar-brand main-logo">
                 <span style="color: darkorange;">Book</span> <span style="color: cadetblue">Radar</span>
             </p>
-            <ul class="nav nounderline text-uppercase">
-                <li class="nav-item ml-4">
-                    <a class="nav-link color-header" href="{% url 'login' %}">log in</a>
-                </li>
-                <li class="nav-item ml-4">
-                    <a class="nav-link color-header" href="{% url 'register' %}">sign in</a>
-                </li>
-            </ul>
+            {% if user.is_authenticated %}
+                <p style="color: darkorange">Hello {{ user.username }} !</p>
+                <ul class="nav nounderline text-uppercase">
+                    <li class="nav-item ml-4">
+                        <a class="nav-link color-header" href="{% url 'logout' %}">log out</a>
+                    </li>
+                </ul>
+            {% else %}
+                <p style="color: darkorange">Hello stranger !</p>
+                <ul class="nav nounderline text-uppercase">
+                    <li class="nav-item ml-4">
+                        <a class="nav-link color-header" href="{% url 'login' %}">log in</a>
+                    </li>
+                    <li class="nav-item ml-4">
+                        <a class="nav-link color-header" href="{% url 'register' %}">sign in</a>
+                    </li>
+                </ul>
+            {% endif %}
         </nav>
     </header>
 
-<section class="padding-large bg-light" style="background: url('{% static 'images/back.jpg' %}') center/cover fixed no-repeat; background-size: cover;">
-  <div id="carouselExampleControls" class="carousel slide main-slider" data-ride="carousel">
-    <div class="carousel-inner container">
-      {% for book in carousel_books %}
-      <div class="carousel-item {% if forloop.first %}active{% endif %}">
-        <div class="carousel-caption d-block" style="background: rgba(255, 255, 255, 0.8); border-radius: 35px; padding: 20px; font-family: Pagul">
-          <h1 style="font-size: 2.5em; margin-bottom: 10px;">{{ book.title }}</h1>
-          <p style="font-size: 1.5em; margin-bottom: 5px;">{{ book.author }}</p>
-          <p style="font-size: 1.2em;">Ranking: {{ book.ranking }}</p>
+
+    <section class="padding-large bg-light" style="background: url('{% static 'images/back.jpg' %}') center/cover fixed no-repeat; background-size: cover;">
+      <div id="carouselExampleControls" class="carousel slide main-slider" data-ride="carousel">
+        <div class="carousel-inner container">
+          {% for book in carousel_books %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <div class="carousel-caption d-block" style="background: rgba(255, 255, 255, 0.8); border-radius: 35px; padding: 20px; font-family: Pagul">
+              <h1 style="font-size: 2.5em; margin-bottom: 10px;">{{ book.title }}</h1>
+              <p style="font-size: 1.5em; margin-bottom: 5px;">{{ book.author }}</p>
+              <p style="font-size: 1.2em;">Ranking: {{ book.ranking }}</p>
+            </div>
+          </div>
+          {% endfor %}
         </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
       </div>
-      {% endfor %}
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
-  </div>
-</section>
-
-
-
-<section class="section-more padding-small">
-    <div class="container">
-        <h2 class="pb-3" style="color: cadetblue">Ranking of the Best Books</h2>
-        <div class="row">
-            <div class="col-md-6">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Position</th>
-                            <th>Ranking</th>
-                            <th>Title</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for book in best_books|slice:":5" %}
+    </section>
+    
+    
+    
+    <section class="section-more padding-small">
+        <div class="container">
+            <h2 class="pb-3" style="color: cadetblue">Ranking of the Best Books</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td>{{ book.ranking }}</td>
-                                <td>{{ book.title }}</td>
-                                <td>
-                                    <button class="btn" style="background-color: cadetblue">
-                                        <a href="#" style="color: white">Details</a>
-                                    </button>
-                                </td>
+                                <th>Position</th>
+                                <th>Ranking</th>
+                                <th>Title</th>
+                                <th></th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-6">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Position</th>
-                            <th>Ranking</th>
-                            <th>Title</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for book in best_books|slice:"5:" %}
+                        </thead>
+                        <tbody>
+                            {% for book in best_books|slice:":5" %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ book.ranking }}</td>
+                                    <td>{{ book.title }}</td>
+                                    <td>
+                                        <button class="btn" style="background-color: cadetblue">
+                                            <a href="#" style="color: white">Details</a>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <td>{{ forloop.counter0|add:5 }}</td>
-                                <td>{{ book.ranking }}</td>
-                                <td>{{ book.title }}</td>
-                                <td>
-                                    <button class="btn" style="background-color: cadetblue">
-                                        <a href="#" style="color: white">Details</a>
-                                    </button>
-                                </td>
+                                <th>Position</th>
+                                <th>Ranking</th>
+                                <th>Title</th>
+                                <th></th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for book in best_books|slice:"5:" %}
+                                <tr>
+                                    <td>{{ forloop.counter0|add:5 }}</td>
+                                    <td>{{ book.ranking }}</td>
+                                    <td>{{ book.title }}</td>
+                                    <td>
+                                        <button class="btn" style="background-color: cadetblue">
+                                            <a href="#" style="color: white">Details</a>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-
-
-
-
-
+    </section>
+    
 
     <section class="padding-small details bg-light">
-            <div class="container">
-                <div class="row">
-                    <div class="col text-center">
-                        <i class="fas fa-check icon-details"></i>
-                        <h1>Lorem ipsum dolor sit amet</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.  Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.
-                        </p>
-                    </div>
-                    <div class="col text-center pr-4 pl-4 mr-4 ml-4">
-                        <i class="far fa-clock icon-details"></i>
-                        <h1>Lorem ipsum dolor sit amet</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.  Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.
-                        </p>
-                    </div>
-                    <div class="col text-center">
-                            <i class="fas fa-list icon-details"></i>
-                        <h1>Lorem ipsum dolor sit amet</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.  Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-    <section class="newsletter-section padding-small">
         <div class="container">
-            <div class="row">
-                <div class="col">
-                    <h1>Lorem ipsum dolor sie amet</h1>
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="text-center">
+                        <img src="{% static 'images/opinion.jpg' %}" class="img-fluid" alt="Book Opinion Image">
+                    </div>
                 </div>
-                <div class="col-5">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control border-0 rounded-0" placeholder=""
-                            aria-label="Recipient's username" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="input-group-text btn-color border-0 rounded-0" type="submit" id="basic-addon2">
-                                <a href="index.html">Lorem</a>
-                            </button>
-                        </div>
+                <div class="col-md-6">
+                    <div class="text-center text-md-left mt-4">
+                        <h2 class="font-weight-bold mb-3">Share Your Reading Experience</h2>
+                        <p>Read something interesting lately?</p>
+                        <p>We'd love to hear your thoughts!</p>
+                        <a href="add_opinion" class="btn" style="background-color: darkorange; color: white">Add Your Opinion</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    
+    <section class="newsletter-section padding-small">
+        <div class="container">
+            <h2 class="font-weight-bold mb-4">Latest Opinions</h2>
+            <ul class="list-unstyled">
+                {% for review in reviews %}
+                    <li class="mb-3">
+                        <span class="font-weight-bold">{{ review.user.username }}</span>
+                        on
+                        <span class="font-italic">{{ review.book.title }}</span>:
+                        <br>
+                        "{{ review.comment }}"
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+
+
+
+
+{#    <section class="newsletter-section padding-small">#}
+{#        <div class="container">#}
+{#            <div class="row">#}
+{#                <div class="col">#}
+{#                    <h1>Lorem ipsum dolor sie amet</h1>#}
+{#                </div>#}
+{#                <div class="col-5">#}
+{#                    <div class="input-group mb-3">#}
+{#                        <input type="text" class="form-control border-0 rounded-0" placeholder=""#}
+{#                            aria-label="Recipient's username" aria-describedby="basic-addon2">#}
+{#                        <div class="input-group-append">#}
+{#                            <button class="input-group-text btn-color border-0 rounded-0" type="submit" id="basic-addon2">#}
+{#                                <a href="index.html">Lorem</a>#}
+{#                            </button>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
 
     <section class="padding-medium story bg-light" id="about">
         <div class="container d-flex justify-content-center align-items-center">

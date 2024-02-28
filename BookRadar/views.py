@@ -1,12 +1,15 @@
 import random
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views import View
 
 from BookRadar.forms import LoginForm, RegisterForm
-from BookRadar.models import Book
+from BookRadar.models import Book, Review
+
+from djangoProject.BookRadar.forms import OpinionAddForm
 
 
 # Create your views here.
@@ -19,7 +22,9 @@ class IndexView(View):
         books  = Book.objects.all()
         best_books = books.order_by('-ranking')[:10]
 
-        ctx = {'carousel_books':carousel_books, 'best_books':best_books}
+        reviews = Review.objects.all().order_by('-created')[:3]
+
+        ctx = {'carousel_books':carousel_books, 'best_books':best_books, 'reviews':reviews}
         return render(request, 'index.html', ctx)
 
 class LoginView(View):
@@ -35,7 +40,7 @@ class LoginView(View):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('dashboard')
+                return redirect('index')
         form.add_error('username', 'Invalid login details. Try again.')
         return render(request, 'login.html', {'form': form})
 
@@ -60,3 +65,9 @@ class RegisterView(View):
             login(request, user)
             return redirect('login')
         return render(request, 'register.html', {'form': form})
+
+class AddOpinionView(LoginRequiredMixin, View):
+    def get(self, request):
+        user = request.user
+        form = OpinionAddForm()
+        return render(request, 'add_form', {'form': form})

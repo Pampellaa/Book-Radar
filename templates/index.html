@@ -1,0 +1,238 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Book Radar</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Charmonman:400,700|Open+Sans:400,600,700&amp;subset=latin-ext"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+</head>
+
+<body>
+    <header class="page-header" style="background-color: white">
+        <nav class="navbar navbar-expand-lg justify-content-around">
+            <p class="navbar-brand main-logo">
+                <span style="color: darkorange;">Book</span> <span style="color: cadetblue">Radar</span>
+            </p>
+            <ul class="nav nounderline text-uppercase">
+                <li class="nav-item ml-4">
+                    <a class="nav-link color-header" href="{% url 'login' %}">log in</a>
+                </li>
+                <li class="nav-item ml-4">
+                    <a class="nav-link color-header" href="{% url 'register' %}">sign in</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+<section class="padding-large bg-light" style="background: url('{% static 'images/back.jpg' %}') center/cover fixed no-repeat; background-size: cover;">
+  <div id="carouselExampleControls" class="carousel slide main-slider" data-ride="carousel">
+    <div class="carousel-inner container">
+      {% for book in carousel_books %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="carousel-caption d-block" style="background: rgba(255, 255, 255, 0.8); border-radius: 35px; padding: 20px; font-family: Pagul">
+          <h1 style="font-size: 2.5em; margin-bottom: 10px;">{{ book.title }}</h1>
+          <p style="font-size: 1.5em; margin-bottom: 5px;">{{ book.author }}</p>
+          <p style="font-size: 1.2em;">Ranking: {{ book.ranking }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</section>
+
+
+
+<section class="section-more padding-small">
+    <div class="container">
+        <h2 class="pb-3" style="color: cadetblue">Ranking of the Best Books</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>Ranking</th>
+                            <th>Title</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in best_books|slice:":5" %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ book.ranking }}</td>
+                                <td>{{ book.title }}</td>
+                                <td>
+                                    <button class="btn" style="background-color: cadetblue">
+                                        <a href="#" style="color: white">Details</a>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>Ranking</th>
+                            <th>Title</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in best_books|slice:"5:" %}
+                            <tr>
+                                <td>{{ forloop.counter0|add:5 }}</td>
+                                <td>{{ book.ranking }}</td>
+                                <td>{{ book.title }}</td>
+                                <td>
+                                    <button class="btn" style="background-color: cadetblue">
+                                        <a href="#" style="color: white">Details</a>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+    <section class="padding-small details bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col text-center">
+                        <i class="fas fa-check icon-details"></i>
+                        <h1>Lorem ipsum dolor sit amet</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.  Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.
+                        </p>
+                    </div>
+                    <div class="col text-center pr-4 pl-4 mr-4 ml-4">
+                        <i class="far fa-clock icon-details"></i>
+                        <h1>Lorem ipsum dolor sit amet</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.  Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.
+                        </p>
+                    </div>
+                    <div class="col text-center">
+                            <i class="fas fa-list icon-details"></i>
+                        <h1>Lorem ipsum dolor sit amet</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.  Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    <section class="newsletter-section padding-small">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1>Lorem ipsum dolor sie amet</h1>
+                </div>
+                <div class="col-5">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control border-0 rounded-0" placeholder=""
+                            aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="input-group-text btn-color border-0 rounded-0" type="submit" id="basic-addon2">
+                                <a href="index.html">Lorem</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="padding-medium story bg-light" id="about">
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="row">
+                <div class="col-4 mr-4">
+                    <div class="div-img">
+                    </div>
+                </div>
+
+                <div class="col-7 ml-4">
+                <h1 class="pb-1"></h1>
+                <p>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="last-info-section padding-small" id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3 class="mb-4">Skontaktuj się z nami!</h3>
+                <p>Pracownicy Centrum Obsługi Klienta chętnie udzielą odpowiedzi na Twoje pytania!</p>
+            </div>
+            <div class="col pl-4 ml-4">
+                <h3 class="mb-4">Formy kontaktu</h3>
+                <ul class="container">
+                    <li>Jesteśmy dostępni od poniedziałku do piątku</li>
+                    <li>Pracujemy w godzinach 9:00-17:00</li>
+                    <li>Numer telefonu: +48 123 456 789</li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3 class="mb-4">Zapisz się do naszego newslettera</h3>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control border-0 rounded-0" placeholder=""
+                        aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="input-group-text btn-color border-0 rounded-0" type="submit" id="basic-addon2"><a
+                                href="index.html">Zapisz się</a></button>
+                    </div>
+                </div>
+                <div class="container d-flex-row">
+                    <a href="https://www.facebook.com/ZaplanujJedzonko">
+                        <i class="fab fa-facebook-square mr-4 icon-social"></i>
+                    </a>
+                    <a href="https://twitter.com/ZaplanujJedzonko">
+                        <i class="fab fa-twitter-square mr-4 icon-social"></i>
+
+                    </a>
+                    <a href="https://www.instagram.com/ZaplanujJedzonko">
+                        <i class="fab fa-instagram icon-social"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+</html>

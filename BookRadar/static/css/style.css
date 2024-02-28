@@ -1,0 +1,58 @@
+
+.page-header {
+    background-color: white;
+}
+
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        .navbar {
+            background-color: #007bff;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: #ffffff !important;
+        }
+
+        .nav-link:hover {
+            color: #0056b3 !important;
+        }
+
+        .main-slider,
+        .details,
+        .story,
+        .last-info-section,
+        .footer-section {
+            background-color: #ffffff;
+            color: #343a40;
+        }
+
+        .btn-color {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        .btn-color:hover {
+            background-color: #0056b3;
+        }
+
+        .icon-details {
+            color: #007bff;
+        }
+
+        .newsletter-section,
+        .section-more {
+            background-color: #f8f9fa;
+        }
+
+        .icon-social {
+            color: #007bff;
+        }
+
+        .footer-section {
+            background-color: #343a40;
+            color: #ffffff;
+        }

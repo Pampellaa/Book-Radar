@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from djangoProject.BookRadar.models import Review
+from BookRadar.models import Review, Book
 
 
 class LoginForm(forms.Form):
@@ -37,7 +37,33 @@ class RegisterForm(forms.ModelForm):
         return password2
 
 
+class TitleChoiceField(forms.ModelChoiceField):
+    def to_python(self, value):
+        if value == '0':
+            return None
+        return super().to_python(value)
+
+class AuthorChoiceField(forms.ModelChoiceField):
+    def to_python(self, value):
+        if value == '0':
+            return None
+        return super().to_python(value)
+
 class OpinionAddForm(forms.ModelForm):
+    author = forms.ModelChoiceField(queryset=Book.objects.values_list('author', flat=True).distinct(), empty_label='---')
+    title = forms.ModelChoiceField(queryset=Book.objects.none(), empty_label=None)
+
+    def __init__(self, *args, **kwargs):
+        super(OpinionAddForm, self).__init__(*args, **kwargs)
+        if 'author' in self.data:
+            try:
+                author_id = int(self.data.get('author'))
+                self.fields['title'].queryset = Book.objects.filter(author=author_id).values('id', 'title')
+            except (ValueError, TypeError):
+                pass
+        elif self.instance.pk and self.instance.author:
+            self.fields['title'].queryset = Book.objects.filter(author=self.instance.author).values('id', 'title')
+
     class Meta:
         model = Review
-        fields = ['book', 'comment']
+        fields = ['author', 'title', 'comment', 'rating']

@@ -3,16 +3,16 @@ import random
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.db.models import Avg
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
 from BookRadar.forms import LoginForm, RegisterForm
 from BookRadar.models import Book, Review
+from BookRadar.forms import OpinionAddForm
 
-from djangoProject.BookRadar.forms import OpinionAddForm
 
-
-# Create your views here.
 class IndexView(View):
     def get(self, request):
         carousel_books = list(Book.objects.all())
@@ -66,8 +66,22 @@ class RegisterView(View):
             return redirect('login')
         return render(request, 'register.html', {'form': form})
 
-class AddOpinionView(LoginRequiredMixin, View):
+class AddOpinionView(View):
     def get(self, request):
-        user = request.user
         form = OpinionAddForm()
-        return render(request, 'add_form', {'form': form})
+        return render(request, 'add_review.html', {'form': form})
+
+    # def post(self, request):
+    #     user = request
+    #     form = OpinionAddForm(request.POST)
+    #     if form.is_valid():
+
+
+def get_books(request):
+    author_id = request.GET.get('author_id')
+    books = Book.objects.filter(author=author_id).values('id', 'title')
+    return JsonResponse(list(books), safe=False)
+
+
+
+

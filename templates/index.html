@@ -16,11 +16,13 @@
 <body>
     <header class="page-header" style="background-color: white">
         <nav class="navbar navbar-expand-lg justify-content-around">
-            <p class="navbar-brand main-logo">
+            <a href="{% url 'index' %}" class="btn navbar-brand main-logo">
                 <span style="color: darkorange;">Book</span> <span style="color: cadetblue">Radar</span>
-            </p>
+            </a>
+
             {% if user.is_authenticated %}
                 <p style="color: darkorange">Hello {{ user.username }} !</p>
+                <a href="{% url 'add-opinion' %}" style="color: cadetblue">Add new opinion</a>
                 <ul class="nav nounderline text-uppercase">
                     <li class="nav-item ml-4">
                         <a class="nav-link color-header" href="{% url 'logout' %}">log out</a>
@@ -40,7 +42,7 @@
         </nav>
     </header>
 
-
+    {% block content %}
     <section class="padding-large bg-light" style="background: url('{% static 'images/back.jpg' %}') center/cover fixed no-repeat; background-size: cover;">
       <div id="carouselExampleControls" class="carousel slide main-slider" data-ride="carousel">
         <div class="carousel-inner container">
@@ -141,7 +143,7 @@
                         <h2 class="font-weight-bold mb-3">Share Your Reading Experience</h2>
                         <p>Read something interesting lately?</p>
                         <p>We'd love to hear your thoughts!</p>
-                        <a href="add_opinion" class="btn" style="background-color: darkorange; color: white">Add Your Opinion</a>
+                        <a href="{% url 'add-opinion' %}" class="btn" style="background-color: darkorange; color: white">Add Your Opinion</a>
                     </div>
                 </div>
             </div>
@@ -247,6 +249,7 @@
         </div>
     </div>
 </section>
+    {% endblock %}
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

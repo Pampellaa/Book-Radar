@@ -68,8 +68,13 @@ class RegisterView(View):
 
 class AddOpinionView(View):
     def get(self, request):
-        form = OpinionAddForm()
-        return render(request, 'add_review.html', {'form': form})
+        if  request.GET.get('author_id'):
+            author_id = request.GET.get('author_id')
+            books = Book.objects.filter(author=author_id).values('id', 'title')
+            return JsonResponse(list(books), safe=False)
+        else:
+            form = OpinionAddForm()
+            return render(request, 'add_review.html', {'form': form})
 
     # def post(self, request):
     #     user = request
@@ -77,10 +82,10 @@ class AddOpinionView(View):
     #     if form.is_valid():
 
 
-def get_books(request):
-    author_id = request.GET.get('author_id')
-    books = Book.objects.filter(author=author_id).values('id', 'title')
-    return JsonResponse(list(books), safe=False)
+#  def get_books(request):
+    #  author_id = request.GET.get('author_id')
+    #  books = Book.objects.filter(author=author_id).values('id', 'title')
+    #  return JsonResponse(list(books), safe=False)
 
 
 

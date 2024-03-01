@@ -7,24 +7,17 @@
     {{ form.as_p }}
     <input type="submit" value="Submit">
   </form>
-    <script
-  src="https://code.jquery.com/jquery-3.7.1.js"
-  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-  crossorigin="anonymous"></script>
   <script>
-    $(document).ready(function(){
-        console.log("ready")
       $('#id_author').change(function(){
-          console.log("zmiana", jQuery)
         var authorId = $(this).val();
-        jQuery.ajax({
-          url: '/get_books/',  // Make sure this URL is correct based on your project structure
+
+        $.ajax({
+          url: '/add-opinion',  // Make sure this URL is correct based on your project structure
           data: {'author_id': authorId},
           success: function(data){
               console.log("odp", data)
             // Clear previous options
             $('#id_title').empty();
-            
             // Populate title options
             $.each(data, function(index, book) {
               $('#id_title').append('<option value="' + book.id + '">' + book.title + '</option>');
@@ -32,6 +25,5 @@
           }
         });
       });
-    });
   </script>
 {% endblock %}

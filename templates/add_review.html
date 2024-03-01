@@ -1,8 +1,8 @@
 {% extends 'index.html' %}
 
 {% block content %}
-  <h2>Add Review</h2>
-  <form method="post" id="reviewForm">
+  <h2 style="text-align: center">Add Review</h2>
+  <form method="post" id="reviewForm" style="text-align: center; width: 400px; margin: auto" >
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit">

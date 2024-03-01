@@ -66,15 +66,20 @@ class RegisterView(View):
             return redirect('login')
         return render(request, 'register.html', {'form': form})
 
-class AddOpinionView(View):
+class AddOpinionView(LoginRequiredMixin, View):
     def get(self, request):
-        if  request.GET.get('author_id'):
-            author_id = request.GET.get('author_id')
-            books = Book.objects.filter(author=author_id).values('id', 'title')
-            return JsonResponse(list(books), safe=False)
+        if request.user.is_authenticated:
+            if request.GET.get('author_id'):
+                author_id = request.GET.get('author_id')
+                books = Book.objects.filter(author=author_id).values('id', 'title')
+                return JsonResponse(list(books), safe=False)
+            else:
+                form = OpinionAddForm()
+                return render(request, 'add_review.html', {'form': form})
         else:
-            form = OpinionAddForm()
-            return render(request, 'add_review.html', {'form': form})
+            return redirect('login')
+
+
 
     # def post(self, request):
     #     user = request

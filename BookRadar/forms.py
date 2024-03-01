@@ -37,21 +37,21 @@ class RegisterForm(forms.ModelForm):
         return password2
 
 
-class TitleChoiceField(forms.ModelChoiceField):
-    def to_python(self, value):
-        if value == '0':
-            return None
-        return super().to_python(value)
-
-class AuthorChoiceField(forms.ModelChoiceField):
-    def to_python(self, value):
-        if value == '0':
-            return None
-        return super().to_python(value)
+# class TitleChoiceField(forms.ModelChoiceField):
+#     def to_python(self, value):
+#         if value == '0':
+#             return None
+#         return super().to_python(value)
+#
+# class AuthorChoiceField(forms.ModelChoiceField):
+#     def to_python(self, value):
+#         if value == '0':
+#             return None
+#         return super().to_python(value)
 
 class OpinionAddForm(forms.ModelForm):
-    author = forms.ModelChoiceField(queryset=Book.objects.values_list('author', flat=True).distinct(), empty_label='---')
-    title = forms.ModelChoiceField(queryset=Book.objects.none(), empty_label=None)
+    author = forms.ModelChoiceField(queryset=Book.objects.values_list('author', flat=True).distinct(), empty_label='---',  widget=forms.Select(attrs={'class': 'form-control'}))
+    title = forms.ModelChoiceField(queryset=Book.objects.none(), empty_label='---', widget=forms.Select(attrs={'class': 'form-control'}))
 
     def __init__(self, *args, **kwargs):
         super(OpinionAddForm, self).__init__(*args, **kwargs)
@@ -67,3 +67,7 @@ class OpinionAddForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['author', 'title', 'comment', 'rating']
+        widgets = {
+            'comment': forms.Textarea(attrs={'class': 'form-control', 'rows':5}),
+            'rating': forms.NumberInput(attrs={'class': 'form-control'})
+        }

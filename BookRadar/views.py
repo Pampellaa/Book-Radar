@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from BookRadar.forms import LoginForm, RegisterForm
-from BookRadar.models import Book, Review
+from BookRadar.models import Book, Review, BOOK_TYPES
 from BookRadar.forms import OpinionAddForm
 
 
@@ -20,11 +20,11 @@ class IndexView(View):
         carousel_books = carousel_books[:3]
 
         books  = Book.objects.all()
-        best_books = books.order_by('-ranking')[:10]
+        best_books = books.order_by('-ranking')[:11]
 
         reviews = Review.objects.all().order_by('-created')[:3]
 
-        ctx = {'carousel_books':carousel_books, 'best_books':best_books, 'reviews':reviews}
+        ctx = {'carousel_books':carousel_books, 'best_books':best_books, 'reviews':reviews, 'books':books, 'types':BOOK_TYPES}
         return render(request, 'index.html', ctx)
 
 class LoginView(View):
@@ -79,6 +79,12 @@ class AddOpinionView(LoginRequiredMixin, View):
         else:
             return redirect('login')
 
+class BookTypeView(View):
+    def get(self, request, *args, **kwargs):
+        book_type = kwargs['book_type']
+        books = Book.objects.filter(type=book_type)
+        type_name = dict(BOOK_TYPES).get(book_type)
+        return render(request, 'book_type.html', {'books': books, 'type_name': type_name})
 
 
     # def post(self, request):

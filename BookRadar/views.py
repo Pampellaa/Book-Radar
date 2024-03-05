@@ -79,12 +79,15 @@ class AddOpinionView(LoginRequiredMixin, View):
         else:
             return redirect('login')
 
-class BookTypeView(View):
+class BookTypeView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        book_type = kwargs['book_type']
-        books = Book.objects.filter(type=book_type)
-        type_name = dict(BOOK_TYPES).get(book_type)
-        return render(request, 'book_type.html', {'books': books, 'type_name': type_name})
+        if request.user.is_authenticated:
+            book_type = kwargs['book_type']
+            books = Book.objects.filter(type=book_type).order_by('-ranking')
+            type_name = dict(BOOK_TYPES).get(book_type)
+            return render(request, 'book_type.html', {'books': books, 'type_name': type_name})
+        else:
+            return redirect('login')
 
 
     # def post(self, request):

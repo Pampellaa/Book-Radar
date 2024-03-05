@@ -34,7 +34,7 @@
                     </li>
                 </ul>
             {% else %}
-                <p style="color: darkorange">Hello stranger !</p>
+                <p style="color: darkorange">Log in to fully use the application</p>
                 <ul class="nav nounderline text-uppercase">
                     <li class="nav-item ml-4">
                         <a class="nav-link color-header" href="{% url 'login' %}">log in</a>
@@ -71,9 +71,9 @@
         </a>
       </div>
     </section>
-    
-    
-    
+
+
+
     <section class="section-more padding-small">
         <div class="container">
             <h2 class="pb-3" style="color: cadetblue">Ranking of the Best Books</h2>
@@ -133,7 +133,7 @@
             </div>
         </div>
     </section>
-    
+
 
     <section class="padding-small details bg-light">
         <div class="container">
@@ -158,7 +158,7 @@
             </div>
         </div>
     </section>
-    
+
     <section class="newsletter-section padding-small">
         <div class="container" style="color: black">
             <h2 class="font-weight-bold mb-4" style="color: darkorange">Latest Opinions</h2>
@@ -175,33 +175,35 @@
             </ul>
         </div>
     </section>
-
-
-<section class="padding-medium story bg-light" id="about">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <h2 class="section-heading mb-4">Discover the Best Books by Genre</h2>
-                <ul class="book-types-list">
-                    {% for type in types %}
-                        <li>
-                            <a href="/type/{{ type.0 }}" class="genre-link">{{ type.1 }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="col-md-6">
-                <div class="text-center">
-                    <img src="{% static 'images/genre2.jpg' %}" class="img-fluid genre-image" alt="Book Genre Image">
+        
+    <section class="padding-small details bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="text-center">
+                        <img src="{% static 'images/genre2.jpg' %}" class="img-fluid genre-image" alt="Book Genre Image">
+                    </div>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="text-center text-md-left mt-4 ">
+                        <h2 class="font-weight-bold mb-3 text-center">Discover books by genre</h2>
+                        <ul class="book-types-list center" style="color: whitesmoke">
+                            {% for type in types %}
+                            <li>
+                                {% if user.is_authenticated %}
+                                    <a href="/type/{{ type.0 }}" style="color: darkorange">{{ type.1 }}</a>
+                                {% else %}
+                                    <a href="{% url 'login' %}"  style="color: darkorange">{{ type.1 }}</a>
+                                {% endif %}
+                                
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-
-
-
-
+    </section>
 
 <section class="last-info-section padding-small" id="contact">
     <div class="container">
@@ -227,18 +229,6 @@
                         <button class="input-group-text btn-color border-0 rounded-0" type="submit" id="basic-addon2"><a
                                 href="index.html">Zapisz się</a></button>
                     </div>
-                </div>
-                <div class="container d-flex-row">
-                    <a href="https://www.facebook.com/ZaplanujJedzonko">
-                        <i class="fab fa-facebook-square mr-4 icon-social"></i>
-                    </a>
-                    <a href="https://twitter.com/ZaplanujJedzonko">
-                        <i class="fab fa-twitter-square mr-4 icon-social"></i>
-
-                    </a>
-                    <a href="https://www.instagram.com/ZaplanujJedzonko">
-                        <i class="fab fa-instagram icon-social"></i>
-                    </a>
                 </div>
             </div>
         </div>

@@ -12,6 +12,9 @@ from BookRadar.forms import LoginForm, RegisterForm
 from BookRadar.models import Book, Review, BOOK_TYPES
 from BookRadar.forms import OpinionAddForm
 
+import requests
+from django.http import JsonResponse
+
 
 class IndexView(View):
     def get(self, request):
@@ -104,3 +107,18 @@ class BookTypeView(LoginRequiredMixin, View):
 
 
 
+def fetch_books(request):
+    search_query = request.GET.get('search_query', 'python')
+    url = f'https://www.googleapis.com/books/v1/volumes?q={search_query}&maxResults=40'
+
+    response = requests.get(url)
+    data = response.json()
+
+    books = []
+    if 'items' in data:
+        for item in data['items']:
+            title = item['volumeInfo']['title'][:100]
+            authors = item['volumeInfo'].get('authors', [])
+            books.append({'title': title, 'authors': ", ".join(authors) if authors else ""})
+    books.sort(key=lambda x: x['authors'])
+    return render(request, 'books.html', {'books': books})

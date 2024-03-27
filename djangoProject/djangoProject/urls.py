@@ -26,4 +26,5 @@ urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='register'),
     path('add-opinion/', views.AddOpinionView.as_view(), name='add-opinion'),
     path('type/<int:book_type>/', views.BookTypeView.as_view(), name='type'),
+    path('books/', views.fetch_books, name='books'),
     ]

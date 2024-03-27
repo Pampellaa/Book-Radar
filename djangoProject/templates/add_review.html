@@ -12,7 +12,7 @@
         var authorId = $(this).val();
 
         $.ajax({
-          url: '/add-opinion',  // Make sure this URL is correct based on your project structure
+          url: '/add-opinion',
           data: {'author_id': authorId},
           success: function(data){
               console.log("odp", data)
